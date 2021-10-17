@@ -5,4 +5,5 @@ module edu.curso.javafx {
 
     opens edu.curso.javafx to javafx.fxml;
     exports edu.curso.javafx;
+    exports edu.curso.farmacia;
 }
