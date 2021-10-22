@@ -5,5 +5,10 @@ module edu.curso.javafx {
 
     opens edu.curso.javafx to javafx.fxml;
     exports edu.curso.javafx;
-    exports edu.curso.farmacia;
+    exports edu.curso.javafx.boundary;
+    opens edu.curso.javafx.boundary to javafx.fxml;
+    exports edu.curso.javafx.entidade;
+    opens edu.curso.javafx.entidade to javafx.fxml;
+    exports edu.curso.farmacia.boundary;
+    exports edu.curso.farmacia.entidade;
 }

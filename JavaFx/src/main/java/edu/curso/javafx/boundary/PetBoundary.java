@@ -1,5 +1,7 @@
-package edu.curso.javafx;
+package edu.curso.javafx.boundary;
 
+import edu.curso.javafx.control.PetControl;
+import edu.curso.javafx.entidade.Pet;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,8 +13,6 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.ArrayList;
 
 public class PetBoundary extends Application {
 
@@ -25,7 +25,8 @@ public class PetBoundary extends Application {
     private Button btnAdicionar = new Button("Adicionar");
     private Button btnPesquisar = new Button("Pesquisar");
 
-    private List<Pet> lista = new ArrayList<>();
+    private PetControl control = new PetControl(); //Composição
+
     @Override
     public void start(Stage stage) {
         GridPane panelPrincipal = new GridPane();
@@ -50,23 +51,17 @@ public class PetBoundary extends Application {
 
         btnAdicionar.setOnAction( e -> {
             Pet p = this.boundarytoEntity();
-            lista.add(p);
-            System.out.println(lista);
+            control.adicionar(p);
         });
 
         btnPesquisar.setOnAction( e -> {
-            boolean encontrado = false;
-            for(Pet p : lista) {
-                if (p.getNome().contains(txtNome.getText())) {
-                    this.entityToBoundary(p);
-                    encontrado = true;
-                    break;
-                }
-            }
-            if (!encontrado) {
+            Pet p = control.pesquisar(txtNome.getText());
+            if (p == null) {
                 Alert a = new Alert(Alert.AlertType.INFORMATION,
                         "Pet não encontrado");
                 a.showAndWait();
+            } else {
+                entityToBoundary(p);
             }
         });
 

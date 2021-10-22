@@ -1,4 +1,4 @@
-package edu.curso.farmacia;
+package edu.curso.farmacia.entidade;
 
 import java.time.LocalDate;
 

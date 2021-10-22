@@ -1,4 +1,4 @@
-package edu.curso.javafx;
+package edu.curso.javafx.entidade;
 
 import java.time.LocalDate;
 

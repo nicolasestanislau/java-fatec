@@ -1,6 +1,8 @@
 
-package edu.curso.farmacia;
+package edu.curso.farmacia.boundary;
 
+import edu.curso.farmacia.control.MedicamentoControl;
+import edu.curso.farmacia.entidade.Medicamento;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,8 +14,6 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MedicamentoBoundary extends Application {
 
@@ -25,7 +25,8 @@ public class MedicamentoBoundary extends Application {
     private Button btnAdicionar = new Button("Adicionar");
     private Button btnPesquisar = new Button("Pesquisar");
 
-    private List<Medicamento> lista = new ArrayList<>();
+    private MedicamentoControl control = new MedicamentoControl();
+
     @Override
     public void start(Stage stage) {
         GridPane panelPrincipal = new GridPane();
@@ -47,23 +48,17 @@ public class MedicamentoBoundary extends Application {
 
         btnAdicionar.setOnAction( e -> {
             Medicamento m = this.boundarytoEntity();
-            lista.add(m);
-            System.out.println(lista);
+            control.adicionar(m);
         });
 
         btnPesquisar.setOnAction( e -> {
-            boolean encontrado = false;
-            for(Medicamento m : lista) {
-                if (m.getNome().contains(txtNome.getText())) {
-                    this.entityToBoundary(m);
-                    encontrado = true;
-                    break;
-                }
-            }
-            if (!encontrado) {
+            Medicamento m = control.pesquisar(txtNome.getText());
+            if (m == null) {
                 Alert a = new Alert(Alert.AlertType.INFORMATION,
                         "Medicamento não encontrado");
                 a.showAndWait();
+            } else {
+                entityToBoundary(m);
             }
         });
 
