@@ -49,6 +49,7 @@ public class PetBoundary extends Application {
         panelPrincipal.add(btnAdicionar, 0, 5);
         panelPrincipal.add(btnPesquisar, 1, 5);
 
+
         btnAdicionar.setOnAction( e -> {
             Pet p = this.boundarytoEntity();
             control.adicionar(p);

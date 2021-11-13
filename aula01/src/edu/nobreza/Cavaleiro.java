@@ -1,7 +1,6 @@
 package edu.nobreza;
 
-public class Cavaleiro {
-    void duelar() {
-        System.out.println("Duelando");
-    }
+public interface Cavaleiro {
+
+    public void duelar();
 }

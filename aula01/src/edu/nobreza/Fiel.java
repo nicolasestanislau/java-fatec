@@ -1,7 +1,6 @@
 package edu.nobreza;
 
-public class Fiel {
-    void rezar() {
-        System.out.println("Rezando");
-    }
+public interface Fiel {
+
+    public void rezar();
 }
