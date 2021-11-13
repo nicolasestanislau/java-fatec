@@ -7,6 +7,7 @@ module edu.curso.javafx {
     exports edu.curso.javafx;
     exports edu.curso.javafx.bce.tradicional;
     exports edu.curso.javafx.bce.aluno;
+    exports edu.curso.javafx.bce.curso;
     exports edu.curso.javafx.boundary;
     opens edu.curso.javafx.boundary to javafx.fxml;
     exports edu.curso.javafx.entidade;

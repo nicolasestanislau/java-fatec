@@ -1,5 +1,7 @@
 package edu.curso.javafx.observerExercicio;
 
 public interface Revista {
-    void artigo(String artigo);
+    void adicionar(Observer o);
+    void remover(Observer o);
+    void publicarArtigo(String artigo);
 }

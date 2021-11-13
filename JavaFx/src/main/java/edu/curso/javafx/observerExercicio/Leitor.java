@@ -1,19 +1,17 @@
 package edu.curso.javafx.observerExercicio;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Leitor implements Observer{
 
-    private List<Revista> revistas = new ArrayList<>();
+    private String nome;
 
+    public Leitor(String n){
+        this.nome = n;
+    }
     @Override
-    public void update(Revista r) {
-        System.out.println("Lendo o artigo " + r);
-//        for (Revista r : revistas ) {
-//            r.artigo();
-//        }
+    public void update(String artigo) {
+        System.out.println("O leitor " + this.nome + " está lendo o artigo " + artigo);
     }
 }
