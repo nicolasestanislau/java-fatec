@@ -2,7 +2,10 @@ package edu.curso.javafx.bce.tradicional;
 
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectExpression;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,7 +22,7 @@ public class PetBoundary extends Application {
 
     private TextField txtId = new TextField();
     private TextField txtNome = new TextField();
-    private TextField txtRaca = new TextField();
+    private ComboBox<String> cmbRaca = new ComboBox<>();
     private TextField txtPeso = new TextField();
     private DatePicker dtNascimento = new DatePicker();
 
@@ -34,6 +37,8 @@ public class PetBoundary extends Application {
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private void criarTabela() {
+        ObservableList<String> items =  FXCollections.observableArrayList("Vira lata", "Poodle", "Pastor Alemão");
+        cmbRaca.setItems(items);
         TableColumn<Pet, Long> col1 = new TableColumn<>("Id");
         col1.setCellValueFactory( new PropertyValueFactory<>("id"));
 
@@ -54,10 +59,10 @@ public class PetBoundary extends Application {
         } );
 
         TableColumn<Pet, String> col6 = new TableColumn<>("Açoes");
-        col6.setCellValueFactory( new PropertyValueFactory<>("DUMMY"));
+        col6.setCellValueFactory( new PropertyValueFactory<>("DUMMY") );
         col6.setCellFactory( (tbCol) ->
                 new TableCell<Pet, String>(){
-                final Button btn = new Button("Remover");
+                    final Button btn = new Button("Remover");
 
                 public void updateItem(String item, boolean empty) {
                     if (empty) {
@@ -80,7 +85,7 @@ public class PetBoundary extends Application {
             }
         );
 
-        table.getColumns().addAll(col1, col2, col3, col4, col5,col6);
+        table.getColumns().addAll(col1, col2, col3, col4, col5, col6);
 
         table.setItems(control.getListaView());
 
@@ -103,7 +108,7 @@ public class PetBoundary extends Application {
         txtId.setDisable(true);
         Bindings.bindBidirectional( txtId.textProperty(), control.id, new NumberStringConverter());
         Bindings.bindBidirectional( txtNome.textProperty(), control.nome);
-        Bindings.bindBidirectional( txtRaca.textProperty(), control.raca);
+        Bindings.bindBidirectional( cmbRaca.valueProperty(), control.raca);
         Bindings.bindBidirectional( txtPeso.textProperty(), control.peso, new NumberStringConverter());
         Bindings.bindBidirectional( dtNascimento.valueProperty(), control.nascimento);
 
@@ -116,7 +121,7 @@ public class PetBoundary extends Application {
         panCampos.add(txtNome, 1, 1);
 
         panCampos.add(new Label("Raça"), 0, 2);
-        panCampos.add(txtRaca, 1, 2);
+        panCampos.add(cmbRaca, 1, 2);
 
         panCampos.add(new Label("Peso"), 0, 3);
         panCampos.add(txtPeso, 1, 3);

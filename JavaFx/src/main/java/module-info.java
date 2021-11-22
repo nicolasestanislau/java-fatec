@@ -1,6 +1,7 @@
 module edu.curso.javafx {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens edu.curso.javafx to javafx.fxml;
