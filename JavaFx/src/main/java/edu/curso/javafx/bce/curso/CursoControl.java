@@ -4,7 +4,6 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CursoControl {
@@ -14,8 +13,8 @@ public class CursoControl {
     StringProperty coordenador = new SimpleStringProperty("");
     LongProperty qntAlunos = new SimpleLongProperty(0);
 
-    private List<Curso> lista = new ArrayList<>();
     private ObservableList<Curso> listaView = FXCollections.observableArrayList();
+    private CursoDAO cursoDAO = new CursoDAOImpl();
 
     public Curso getEntity() {
         Curso c = new Curso();
@@ -35,24 +34,37 @@ public class CursoControl {
         qntAlunos.set(c.getQntAlunos());
     }
 
-    public void adicionar() {
+    public void salvar() {
         Curso c = getEntity();
-        lista.add(c);
+        if(c.getId() == 0) {
+            cursoDAO.adicionar(c);
+            setEntity(new Curso());
+        } else {
+            cursoDAO.atualizar(id.get(), c);
+        }
         atualizarListaView();
     }
 
     public void pesquisar() {
         listaView.clear();
-        for (Curso c : lista) {
-            if (c.getNome().contains(nome.get())) {
-                listaView.add(c);
-            }
-        }
+        List<Curso> encontrados = cursoDAO.pesquisarPorNome(nome.get());
+        listaView.addAll(encontrados);
+    }
+
+    public void novoCurso() {
+        Curso c = new Curso();
+        c.setId(0);
+        setEntity(c);
+    }
+
+    public void remover(long id) {
+        cursoDAO.remover(id);
+        atualizarListaView();
     }
 
     public void atualizarListaView() {
         listaView.clear();
-        listaView.addAll(lista);
+        listaView.addAll(cursoDAO.pesquisarPorNome(""));
     }
     public ObservableList<Curso>  getListaView() {
         return listaView;
