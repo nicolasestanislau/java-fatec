@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-public class PetBoundary implements StrategyBoundary{
+public class PetBoundary extends CommandProducer implements StrategyBoundary{
 
     private TextField txtId = new TextField();
     private TextField txtNome = new TextField();
@@ -132,6 +132,12 @@ public class PetBoundary implements StrategyBoundary{
         panCampos.add(btnSalvar, 0, 5);
         panCampos.add(btnPesquisar, 1, 5);
 
+        Button btnCreditos = new Button("Creditos");
+        panCampos.add(btnCreditos, 2, 5);
+
+        btnCreditos.setOnAction((e) -> {
+            executeCommand("BOUNDARY-CREDITOS");
+        });
 
         btnSalvar.setOnAction( e -> {
             control.salvar();

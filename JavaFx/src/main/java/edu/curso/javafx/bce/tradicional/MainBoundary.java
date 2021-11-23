@@ -16,14 +16,16 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainBoundary extends Application implements EventHandler<ActionEvent> {
+public class MainBoundary extends Application implements CommandExecution {
 
-    private Map<String, StrategyBoundary> telas = new HashMap<>();
+    private PetBoundary petBoundary = new PetBoundary();
+    private CreditoBoundary creditoBoundary = new CreditoBoundary();
+
     private BorderPane paneMain = new BorderPane();
 
     public MainBoundary() {
-        telas.put("Pets", new PetBoundary());
-        telas.put("Creditos", new CreditoBoundary());
+        creditoBoundary.addExecution(this);
+        petBoundary.addExecution(this);
     }
 
     @Override
@@ -42,12 +44,15 @@ public class MainBoundary extends Application implements EventHandler<ActionEven
         MenuItem itemCreditos = new MenuItem("Creditos");
 
         itemSair.setOnAction((e) -> {
-            Platform.exit();
-            System.exit(0);
+            execute("SAIR");
         });
 
-        itemPets.setOnAction(this);
-        itemCreditos.setOnAction(this);
+        itemPets.setOnAction((e) -> {
+            execute("BOUNDARY-PET");
+        });
+        itemCreditos.setOnAction((e) -> {
+            execute("BOUNDARY-CREDITOS");
+        });
 
         menuArquivo.getItems().addAll(itemSair);
         menuCadastro.getItems().addAll(itemPets);
@@ -62,18 +67,32 @@ public class MainBoundary extends Application implements EventHandler<ActionEven
         stage.show();
     }
 
+//    @Override
+//    public void handle(ActionEvent event) {
+//        EventTarget target = event.getTarget();
+//        if (target instanceof MenuItem) {
+//            MenuItem menu = (MenuItem) target;
+//            String texto = menu.getText();
+//            StrategyBoundary tela = telas.get(texto);
+//            paneMain.setCenter(tela.render());
+//        }
+//    }
+
     @Override
-    public void handle(ActionEvent event) {
-        EventTarget target = event.getTarget();
-        if (target instanceof MenuItem) {
-            MenuItem menu = (MenuItem) target;
-            String texto = menu.getText();
-            StrategyBoundary tela = telas.get(texto);
-            paneMain.setCenter(tela.render());
+    public void execute(String command) {
+        if("BOUNDARY-PET".equals(command)) {
+            paneMain.setCenter(petBoundary.render());
+        } else if("BOUNDARY-CREDITOS".equals(command)) {
+            paneMain.setCenter(creditoBoundary.render());
+        } else if("SAIR".equals(command)) {
+            Platform.exit();
+            System.exit(0);
         }
     }
 
     public static void main(String[] args) {
         Application.launch(MainBoundary.class, args);
     }
+
+
 }
